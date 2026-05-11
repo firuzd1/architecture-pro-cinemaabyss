@@ -1,0 +1,69 @@
+@startuml CinemaAbyss_ToBe_Containers
+' C4-PlantUML: https://github.com/plantuml-stdlib/C4-PlantUML
+' При офлайн-рендере подставьте локальный путь к C4_Container.puml из вашей установки.
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+LAYOUT_WITH_LEGEND()
+
+title Контейнерная диаграмма To-Be — платформа «Кинобездна» (C4 Level 2)
+
+Person(clients, "Клиенты", "Мобильные приложения, веб-клиент, Smart TV")
+
+System_Boundary(platform, "Платформа «Кинобездна» (Kubernetes / Helm)") {
+
+    Container(gateway, "API Gateway (Proxy)", "Go, Ingress", "Единая точка входа REST: маршрутизация, версии API, постепенный перенос функционала из монолита (Strangler Fig)")
+
+    Container(monolith, "Переходный монолит", "Go", "Домены, ещё не вынесенные в отдельные сервисы; трафик сокращается по мере миграции")
+
+    Container(users, "User & Identity", "Go", "Домен пользователя: регистрация, аутентификация, профиль, сессии")
+
+    Container(movies, "Movies (каталог контента)", "Go", "Домен каталога: метаданные фильмов, жанры, актёры, рейтинги, избранное")
+
+    Container(payments, "Payments (платежи)", "Go", "Домен оплат: инициация, статусы, возвраты, сверка с провайдерами")
+
+    Container(subs, "Subscriptions (подписки)", "Go", "Домен подписок: тарифы, продления, доступ к контенту")
+
+    Container(promo, "Promotions & Discounts", "Go", "Домен скидок и промоакций: правила, купоны, партнёрские кампании")
+
+    Container(events, "Events (интеграционные события)", "Go", "Публикация и обработка доменных событий для асинхронных сценариев и аналитики")
+
+    ContainerQueue(kafka, "Apache Kafka", "брокер сообщений", "Шина событий: User, Payment, Movie и др. топики для слабой связанности сервисов")
+
+    ContainerDb(db, "Хранилища данных", "PostgreSQL", "По целевой модели — отдельные БД или схемы на домен; на этапе миграции возможно совместное использование с постепенным разделением")
+}
+
+System_Ext(reco, "Рекомендательная система", "Персональные подборки контента")
+System_Ext(psp, "Платёжные провайдеры", "Эквайринг, кошельки, СБП")
+System_Ext(partners, "Партнёрские сервисы", "Лояльность, маркетплейсы, внешние акции")
+
+Rel(clients, gateway, "HTTPS", "REST JSON")
+
+Rel(gateway, monolith, "HTTP", "маршруты доменов в процессе выноса")
+Rel(gateway, users, "HTTP", "REST")
+Rel(gateway, movies, "HTTP", "REST")
+Rel(gateway, payments, "HTTP", "REST")
+Rel(gateway, subs, "HTTP", "REST")
+Rel(gateway, promo, "HTTP", "REST")
+Rel(gateway, events, "HTTP", "REST (публикация событий)")
+
+Rel(gateway, reco, "HTTPS", "запрос рекомендаций (как правило вне основного синхронного критического пути)")
+
+Rel(users, db, "TCP", "данные пользователей")
+Rel(movies, db, "TCP", "каталог и оценки")
+Rel(payments, db, "TCP", "платежи")
+Rel(subs, db, "TCP", "подписки")
+Rel(promo, db, "TCP", "промо и скидки")
+Rel(monolith, db, "TCP", "оставшиеся сущности")
+
+Rel(events, kafka, "consume / produce", "топики доменных событий")
+Rel(payments, kafka, "produce", "PaymentConfirmed / Failed")
+Rel(movies, kafka, "produce", "MovieRated, FavoritesChanged")
+Rel(users, kafka, "produce", "UserRegistered, SignedIn")
+Rel(subs, kafka, "produce", "SubscriptionRenewed, Cancelled")
+Rel(promo, kafka, "produce", "PromoApplied")
+Rel(monolith, kafka, "produce", "события до выноса домена в Events")
+
+Rel(payments, psp, "HTTPS", "проведение платежей")
+Rel(promo, partners, "HTTPS", "проверка бонусов, партнёрские офферы")
+
+@enduml
