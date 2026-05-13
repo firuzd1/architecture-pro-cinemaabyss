@@ -1,0 +1,70 @@
+{
+  "format": 1,
+  "restore": {
+    "/Users/firuzd1/Desktop/YandexPracticum/спринт 2/project/architecture-pro-cinemaabyss/src/microservices/proxy/ProxyService/ProxyService.csproj": {}
+  },
+  "projects": {
+    "/Users/firuzd1/Desktop/YandexPracticum/спринт 2/project/architecture-pro-cinemaabyss/src/microservices/proxy/ProxyService/ProxyService.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/firuzd1/Desktop/YandexPracticum/спринт 2/project/architecture-pro-cinemaabyss/src/microservices/proxy/ProxyService/ProxyService.csproj",
+        "projectName": "ProxyService",
+        "projectPath": "/Users/firuzd1/Desktop/YandexPracticum/спринт 2/project/architecture-pro-cinemaabyss/src/microservices/proxy/ProxyService/ProxyService.csproj",
+        "packagesPath": "/Users/firuzd1/.nuget/packages/",
+        "outputPath": "/Users/firuzd1/Desktop/YandexPracticum/спринт 2/project/architecture-pro-cinemaabyss/src/microservices/proxy/ProxyService/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/firuzd1/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net9.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net9.0": {
+            "targetAlias": "net9.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.300"
+      },
+      "frameworks": {
+        "net9.0": {
+          "targetAlias": "net9.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/9.0.313/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

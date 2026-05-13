@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "HsPLWiADXR0=",
+  "success": true,
+  "projectFilePath": "/Users/firuzd1/Desktop/YandexPracticum/спринт 2/project/architecture-pro-cinemaabyss/src/microservices/events/EventsService/EventsService.csproj",
+  "expectedPackageFiles": [
+    "/Users/firuzd1/.nuget/packages/confluent.kafka/2.14.0/confluent.kafka.2.14.0.nupkg.sha512",
+    "/Users/firuzd1/.nuget/packages/librdkafka.redist/2.14.0/librdkafka.redist.2.14.0.nupkg.sha512"
+  ],
+  "logs": []
+}
