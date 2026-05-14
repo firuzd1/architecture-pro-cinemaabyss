@@ -121,7 +121,7 @@ jobs:
   api-tests:
     runs-on: ubuntu-latest
     needs: build-and-push
-
+    
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -129,11 +129,14 @@ jobs:
       - name: Start services
         run: docker compose up -d --build
 
-      - name: Wait for services
-        run: sleep 30
+      - name: Wait for services to be ready
+        run: |
+          echo "Waiting for services..."
+          sleep 60
+          docker compose ps
 
       - name: Run API tests
         run: |
           cd tests/postman
           npm install
-          npx newman run CinemaAbyss.postman_collection.json -e local.environment.json
+          npx newman run CinemaAbyss.postman_collection.json -e local.environment.json --timeout-request 30000
