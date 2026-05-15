@@ -275,7 +275,9 @@ cat .docker/config.json | base64
   Откройте логи event-service и сделайте скриншот обработки событий
 
 #### Шаг 3
-Добавьте сюда скриншота вывода при вызове https://cinemaabyss.example.com/api/movies и  скриншот вывода event-service после вызова тестов.
+![movies api](src/screenshots/kubernetes-movies.png)
+
+![events service logs](src/screenshots/events-logs.png)
 
 
 ## Задание 4
