@@ -1,0 +1,49 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+title To-Be архитектура Кинобездна
+
+Person(user, "Пользователь", "браузер, мобилка, смарт тв")
+
+System_Boundary(s, "Кинобездна") {
+
+    Container(proxy, "Прокси / API Gateway", "Go", "принимает все запросы и перенаправляет нужному сервису")
+
+    Container(monolith, "Монолит", "Go", "старый монолит, пока ещё работает пока не перенесли всё")
+
+    Container(movies, "movies-service", "Go", "метаданные фильмов жанры актёры оценки")
+
+    Container(users, "users-service", "Go", "пользователи, авторизация, профиль")
+
+    Container(payments, "payments-service", "Go", "оплаты и подписки")
+
+    Container(events, "events-service", "Go", "сервис событий, пишет и читает из кафки")
+
+    ContainerQueue(kafka, "Kafka", "Apache Kafka", "очередь сообщений для событий")
+
+    ContainerDb(db, "PostgreSQL", "база данных", "хранит всё")
+}
+
+System_Ext(reco, "Рекомендательная система", "внешняя система")
+System_Ext(pay_ext, "Платёжная система", "внешняя система")
+
+Rel(user, proxy, "HTTP/HTTPS", "REST")
+
+Rel(proxy, monolith, "HTTP", "запросы которые ещё не перенесли")
+Rel(proxy, movies, "HTTP", "запросы к фильмам")
+Rel(proxy, users, "HTTP", "запросы к пользователям")
+Rel(proxy, payments, "HTTP", "запросы к оплатам")
+Rel(proxy, events, "HTTP", "создать событие")
+
+Rel(monolith, db, "SQL", "")
+Rel(movies, db, "SQL", "")
+Rel(users, db, "SQL", "")
+Rel(payments, db, "SQL", "")
+
+Rel(events, kafka, "produce/consume", "")
+Rel(monolith, kafka, "produce", "")
+
+Rel(payments, pay_ext, "HTTPS", "")
+Rel(monolith, reco, "HTTPS", "")
+
+@enduml

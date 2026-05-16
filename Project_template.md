@@ -5,7 +5,10 @@
 1. Спроектируйте to be архитектуру КиноБездны, разделив всю систему на отдельные домены и организовав интеграционное взаимодействие и единую точку вызова сервисов.
 Результат представьте в виде контейнерной диаграммы в нотации С4.
 Добавьте ссылку на файл в этот шаблон
-[ссылка на файл](ссылка)
+
+[Диаграмма контейнеров To-Be](src/containers.puml)
+
+Разделил систему на отдельные сервисы: movies, users, payments, events. Монолит пока остаётся, трафик постепенно переключается через прокси (паттерн strangler fig). Прокси это единая точка входа для всех клиентов. Kafka используется для событий между сервисами. База данных пока общая но в дальнейшем можно разделить.
 
 
 ## Задание 2
@@ -272,7 +275,9 @@ cat .docker/config.json | base64
   Откройте логи event-service и сделайте скриншот обработки событий
 
 #### Шаг 3
-Добавьте сюда скриншота вывода при вызове https://cinemaabyss.example.com/api/movies и  скриншот вывода event-service после вызова тестов.
+![movies api](src/screenshots/kubernetes-movies.png)
+
+![events service logs](src/screenshots/events-logs.png)
 
 
 ## Задание 4
@@ -348,6 +353,7 @@ minikube tunnel
 Потом вызовите 
 https://cinemaabyss.example.com/api/movies
 и приложите скриншот развертывания helm и вывода https://cinemaabyss.example.com/api/movies
+![helm deployment](src/screenshots/helm-movies.png)
 
 
 # Задание 5
@@ -414,6 +420,7 @@ You can see 21 for the upstream_rq_pending_overflow value which means 21 calls s
 ```
 
 Приложите скриншот работы circuit breaker'а
+![circuit breaker](src/screenshots/circuit-breaker.png)
 
 Удаляем все
 ```bash
